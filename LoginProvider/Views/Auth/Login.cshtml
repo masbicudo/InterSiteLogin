@@ -1,0 +1,63 @@
+﻿@using LoginProvider.Code
+@model LoginProvider.Models.Usuario
+@{
+    this.ViewBag.Title = "Login";
+    this.Layout = null;
+    Dependencies.RequireFile("~/Scripts/jquery-1.11.1.js");
+    Dependencies.RequireFile("~/Scripts/jquery.unobtrusive-ajax.js");
+
+    Dependencies.RequireFile("~/Content/Auth/Login.css");
+    Dependencies.RequireFile("~/Content/Auth/Login.js");
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>@ViewBag.Title</title>
+
+    @Dependencies.RenderStyles()
+    @Dependencies.RenderScripts()
+
+</head>
+<body>
+    <div id="login-container-outer" class="radius">
+        <div id="login-container" class="radius">
+            <div id="login-header" class="radius-top">
+                Login Provider
+            </div>
+            @if (this.ViewBag.NotSafe)
+            {
+                <div>
+                    Cannot login due to security reasons.
+                    You have probably been tricked into accessing this login page.
+                </div>
+            }
+            else
+            {
+                <div>
+                    @using (Ajax.BeginForm("Login", "Auth",
+                      new AjaxOptions { HttpMethod = "POST", OnSuccess = "Login.processLoginResponse" },
+                      new { @class = "form-signin" }))
+                    {
+                        <input type="hidden" name="ReturnUrl" value="@this.ViewBag.ReturnUrl" />
+                        <div id="login-content">
+                            <span class="login_label label">User name:</span>
+                            @this.Html.EditorFor(m => m.Login)
+                            <span class="login_label label">Password:</span>
+                            @this.Html.EditorFor(m => m.Password)
+                            <span class="login_label label"></span>
+                            <button class="button2 redB" type="submit">Enter</button>
+                        </div>
+                    }
+                </div>
+            }
+            <div id="login-extra" class="radius-bottom">
+                <a id="a-reminder" href="#" target="_blank" class="afooter-link">
+                    <span>Copyright &copy; @DateTime.Now.Year</span>
+                    <strong>Login Provider</strong>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

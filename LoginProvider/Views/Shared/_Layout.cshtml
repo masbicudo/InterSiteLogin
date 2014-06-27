@@ -1,0 +1,23 @@
+﻿@using LoginProvider.Code
+@{
+    Dependencies.RequireFile("~/Content/_Layout.css");
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@this.ViewBag.Title - Login Provider</title>
+    @Dependencies.RenderStyles()
+</head>
+<body>
+    <div class="top-menu">
+        top menu
+    </div>
+    <div class="side-menu">
+        side menu
+    </div>
+    <div class="content">
+        <h2>@this.ViewBag.Title</h2>
+        @this.RenderBody()
+    </div>
+</body>
+</html>

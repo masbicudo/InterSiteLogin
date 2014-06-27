@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginProvider", "LoginProvider\LoginProvider.csproj", "{B661FABD-CDB3-4736-8F24-B09BD2DC4B72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteWithExternalLogin", "SiteWithExternalLogin\SiteWithExternalLogin.csproj", "{A145C944-3D13-4CF2-AE7A-AF9428A1F763}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{599E2530-C947-4F3A-9933-01D785C6D7C3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B661FABD-CDB3-4736-8F24-B09BD2DC4B72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B661FABD-CDB3-4736-8F24-B09BD2DC4B72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B661FABD-CDB3-4736-8F24-B09BD2DC4B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B661FABD-CDB3-4736-8F24-B09BD2DC4B72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A145C944-3D13-4CF2-AE7A-AF9428A1F763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A145C944-3D13-4CF2-AE7A-AF9428A1F763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A145C944-3D13-4CF2-AE7A-AF9428A1F763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A145C944-3D13-4CF2-AE7A-AF9428A1F763}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
