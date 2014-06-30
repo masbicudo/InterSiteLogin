@@ -11,7 +11,7 @@ namespace LoginProvider.Code
             this.Version = StaticTicketVersion;
         }
 
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
 
         public string Login { get; set; }
 

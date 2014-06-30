@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Web.Mvc;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public static class ControllerExtensions
     {

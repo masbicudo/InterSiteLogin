@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public static class TypeExtensions
     {

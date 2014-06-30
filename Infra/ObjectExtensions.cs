@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public static class ObjectExtensions
     {

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace LoginProvider.Models
 {
@@ -11,6 +12,6 @@ namespace LoginProvider.Models
 
         public string Login { get; set; }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

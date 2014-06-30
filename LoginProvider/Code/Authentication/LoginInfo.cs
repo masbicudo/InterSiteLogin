@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LoginProvider.Code
+namespace LoginProvider.Code.Authentication
 {
-    public class LoginInfo
+    public class LoginUserInfo
     {
-        private readonly Dictionary<Guid, Guid> dicApiKeyToTokenMap
+        private readonly Dictionary<Guid, Guid> dicApplicationIdToLoginTokenMap
             = new Dictionary<Guid, Guid>();
 
-        public Dictionary<Guid, Guid> ApiKeyToTokenMap
+        // ReSharper disable once InconsistentNaming
+        public Dictionary<Guid, Guid> ApplicationId_To_LoginToken_Map
         {
-            get { return dicApiKeyToTokenMap; }
+            get { return this.dicApplicationIdToLoginTokenMap; }
         }
+
+        public RecognizedLoginModes RecognizedLoginMode { get; set; }
+
+        public string Name { get; set; }
+
+        public Guid Id { get; set; }
+
+        public bool AllowRedirectToHttp { get; set; }
     }
 }

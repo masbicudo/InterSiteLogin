@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     [Serializable]
     public class JsonModelErrorData

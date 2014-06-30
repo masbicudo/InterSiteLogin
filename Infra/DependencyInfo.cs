@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public class DependencyInfo
     {

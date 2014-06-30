@@ -39,7 +39,7 @@ namespace LoginProvider.Code
         {
             var userInfoInTicket = new CustomTicketData
             {
-                Id = user.Id,
+                UserId = user.Id,
                 Login = user.Login,
                 Name = user.Name,
             };

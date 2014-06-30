@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LoginProvider.Code.Authentication;
 
 namespace LoginProvider.ViewModels.Auth
 {
@@ -9,5 +10,9 @@ namespace LoginProvider.ViewModels.Auth
 
         [Required]
         public string Password { get; set; }
+
+        public string Name { get; set; }
+
+        public RecognizedLoginModes RecognizedLoginMode { get; set; }
     }
 }

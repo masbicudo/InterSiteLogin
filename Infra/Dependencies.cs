@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using JetBrains.Annotations;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public class Dependencies
     {

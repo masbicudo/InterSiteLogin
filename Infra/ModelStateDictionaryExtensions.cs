@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
-namespace LoginProvider.Code
+namespace Infra
 {
     public static class ModelStateDictionaryExtensions
     {

@@ -110,22 +110,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Authentication\AppCallbackType.cs" />
     <Compile Include="Code\Authentication\AuthHelper.cs" />
     <Compile Include="Code\Authentication\CustomTicketData.cs" />
     <Compile Include="Code\Authentication\CustomPrincipal.cs" />
     <Compile Include="Code\Authentication\LoginApplicationInfo.cs" />
     <Compile Include="Code\Authentication\LoginHelper.cs" />
     <Compile Include="Code\Authentication\LoginInfo.cs" />
-    <Compile Include="Code\ControllerExtensions.cs" />
-    <Compile Include="Code\JsonModelErrorData.cs" />
-    <Compile Include="Code\JsonResponseData.cs" />
-    <Compile Include="Code\ModelStateDictionaryExtensions.cs" />
-    <Compile Include="Code\ObjectExtensions.cs" />
-    <Compile Include="Code\TypeExtensions.cs" />
+    <Compile Include="Code\Authentication\RecognizedLoginModes.cs" />
+    <Compile Include="Code\Authentication\WebRequestLog.cs" />
+    <Compile Include="Code\SystemWebExtensions\WebHeaderCollectionExtensions.cs" />
     <Compile Include="ViewModels\Auth\AlterarSenhaViewModel.cs" />
     <Compile Include="ViewModels\Auth\LoginViewModel.cs" />
-    <Compile Include="Code\Dependencies.cs" />
-    <Compile Include="Code\DependencyInfo.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -174,6 +170,12 @@
   <ItemGroup>
     <Content Include="Scripts\jquery-1.11.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infra\Infra.csproj">
+      <Project>{bb49a80d-d048-4e58-a577-dd5260078a34}</Project>
+      <Name>Infra</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -194,7 +196,7 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:5339/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://login.provider.com</IISAppRootUrl>
+          <IISAppRootUrl>http://login.provider.com:8080</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

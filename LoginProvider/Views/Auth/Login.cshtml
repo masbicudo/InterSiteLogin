@@ -1,5 +1,5 @@
 ﻿@using LoginProvider.Code
-@model LoginProvider.Models.Usuario
+@model LoginProvider.ViewModels.Auth.LoginViewModel
 @{
     this.ViewBag.Title = "Login";
     this.Layout = null;
@@ -25,7 +25,7 @@
             <div id="login-header" class="radius-top">
                 Login Provider
             </div>
-            @if (this.ViewBag.NotSafe)
+            @if (this.ViewBag.NotSafe == true)
             {
                 <div>
                     Cannot login due to security reasons.
