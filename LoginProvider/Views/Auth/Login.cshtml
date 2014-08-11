@@ -1,4 +1,4 @@
-﻿@using LoginProvider.Code
+﻿@using Infra
 @model LoginProvider.ViewModels.Auth.LoginViewModel
 @{
     this.ViewBag.Title = "Login";
@@ -20,43 +20,43 @@
 
 </head>
 <body>
-    <div id="login-container-outer" class="radius">
-        <div id="login-container" class="radius">
-            <div id="login-header" class="radius-top">
-                Login Provider
-            </div>
+    <div class="login-box">
+        <div class="header">
+            <h1>Login</h1>
+        </div>
+        <div class="content">
             @if (this.ViewBag.NotSafe == true)
             {
-                <div>
-                    Cannot login due to security reasons.
+                <span>Cannot login due to security reasons.
                     You have probably been tricked into accessing this login page.
-                </div>
+                </span>
             }
             else
             {
-                <div>
-                    @using (Ajax.BeginForm("Login", "Auth",
-                      new AjaxOptions { HttpMethod = "POST", OnSuccess = "Login.processLoginResponse" },
-                      new { @class = "form-signin" }))
-                    {
-                        <input type="hidden" name="ReturnUrl" value="@this.ViewBag.ReturnUrl" />
-                        <div id="login-content">
-                            <span class="login_label label">User name:</span>
+                <form action="@this.Url.Action("Login", "Auth")" method="post">
+                    <div class="msg">
+                        By entering your credentials you will be login to site X.
+                    </div>
+                    <input type="hidden" name="ReturnUrl" value="@this.ViewBag.ReturnUrl" />
+                    <div class="editor-group">
+                        <div class="editor">
+                            <label for="@Html.IdFor(m => m.Login)">User name</label>
                             @this.Html.EditorFor(m => m.Login)
-                            <span class="login_label label">Password:</span>
-                            @this.Html.EditorFor(m => m.Password)
-                            <span class="login_label label"></span>
-                            <button class="button2 redB" type="submit">Enter</button>
                         </div>
-                    }
-                </div>
+                        <div class="editor">
+                            <label for="@Html.IdFor(m => m.Password)">Password</label>
+                            @this.Html.EditorFor(m => m.Password)
+                        </div>
+                    </div>
+                    <button class="button2 btnGreen" type="submit">Enter</button>
+                </form>
             }
-            <div id="login-extra" class="radius-bottom">
-                <a id="a-reminder" href="#" target="_blank" class="afooter-link">
-                    <span>Copyright &copy; @DateTime.Now.Year</span>
-                    <strong>Login Provider</strong>
-                </a>
-            </div>
+        </div>
+        <div class="footer">
+            <a>
+                <span>Login provided by: </span>
+                <strong>Login Provider</strong>
+            </a>
         </div>
     </div>
 </body>
