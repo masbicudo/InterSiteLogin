@@ -14,5 +14,7 @@ namespace LoginProvider.ViewModels.Auth
         public string Name { get; set; }
 
         public RecognizedLoginModes RecognizedLoginMode { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

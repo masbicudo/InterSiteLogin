@@ -1,11 +1,11 @@
-﻿using Infra;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using Infra;
 using LoginProvider.Code;
 using LoginProvider.Code.Authentication;
 using LoginProvider.Models;
 using LoginProvider.ViewModels.Auth;
-using System;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace LoginProvider.Controllers
 {
@@ -18,16 +18,23 @@ namespace LoginProvider.Controllers
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                // == NO API-KEY ==
+                // == NO API-KEY - DIRECT LOGIN ==
                 // 
+                // This means that the user is loggin in to the provider site directly.
                 // In this case, by logging in, the user will only be recognized by the login provider.
                 //
-                // Later, when the user tryes to login to an application, one of these may happen:
-                //  1) automatic login: allow the user to login, without bothering the user with additional steps
-                //  2) confirm login: require the user to confirm he/she wishes to login, but without having to enter credentials
-                //  3) require login: require the user to enter credentials again... even if the user already have the provider authentication cookie
+                // Later, when the USER tryes to login to any APPLICATION, one of these may happen:
                 //
-                // Both the user and the application can control this behavior.
+                //  1) AUTOMATIC LOGIN: allow the user to login,
+                //                      without bothering him/her with additional steps
+                //
+                //  2) CONFIRM LOGIN:   require the user to confirm he/she wishes to login,
+                //                      but without having to enter credentials
+                //
+                //  3) VERIFIED LOGIN:  require the user to enter credentials again...
+                //                      even if the user already have the provider authentication cookie
+                //
+                // Both the USER and the APPLICATION can control this behavior.
                 // When they diverge, the most restrictive behavior will be used.
                 return this.View();
             }
@@ -36,7 +43,7 @@ namespace LoginProvider.Controllers
             if (application == null)
             {
                 // == INVALID REQUEST ==
-                // 
+                //
                 // There is something wrong with this request.
                 // Maybe someone is trying to forge a user login,
                 // or induce the user to do something without proper knowledge.
@@ -46,7 +53,7 @@ namespace LoginProvider.Controllers
 
             if (!this.HttpContext.User.Identity.IsAuthenticated)
             {
-                // == USER NOT RECOGNIZED ==
+                // == USER NOT YET RECOGNIZED (VISITOR) ==
                 //
                 // Let the user login, and get the authentication cookie.
                 this.ViewBag.ReturnUrl = application.LoginRedirectUrl;
@@ -69,7 +76,7 @@ namespace LoginProvider.Controllers
             if (application.RecognizedLoginMode == RecognizedLoginModes.RequireCredentials
                 || user.RecognizedLoginMode == RecognizedLoginModes.RequireCredentials)
             {
-                // == USER RECOGNIZED - OPTION: MUST ENTER CREDENTIALS ==
+                // == USER RECOGNIZED - SETTING IS: MUST ENTER CREDENTIALS ==
                 //
                 // Let the user enter his/her credentials again.
                 return this.View(
@@ -119,7 +126,9 @@ namespace LoginProvider.Controllers
             throw new Exception("Unrecognized option.");
         }
 
-        // Post: /Auth/Login
+        /// <summary>
+        /// Post: /Auth/Login
+        /// </summary>
         [HttpPost]
         [AllowAnonymous]
         public JsonResult Login(LoginViewModel viewModel, bool lembrarMinhaSenha = false, string returnUrl = "")
@@ -146,6 +155,11 @@ namespace LoginProvider.Controllers
                 AuthHelper.CreateTicket(usuario),
                 TimeSpan.FromHours(8),
                 lembrarMinhaSenha);
+
+            if (this.Request.AcceptTypes.Contains(""))
+            {
+                
+            }
 
             return this.Json(
                 string.IsNullOrWhiteSpace(returnUrl)
