@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB5DBE81-B9ED-44C4-89D1-A03BD124A2A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Masb.Yai</RootNamespace>
+    <AssemblyName>Masb.Yai</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile36</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="ComponentEntryBuilder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ComponentEntryBuilder.cs</LastGenOutput>
+    </None>
+    <None Include="GenericBuilderGen.ttinclude">
+      <LastGenOutput>CodeGen.cs</LastGenOutput>
+    </None>
+    <None Include="ExpressionFilterContextBuilder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExpressionFilterContextBuilder.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributeSources\CombinedAttributeSource.cs" />
+    <Compile Include="AttributeSources\ReadWriteLock.cs" />
+    <Compile Include="AttributeSources\ReflectionExtensions.cs" />
+    <Compile Include="AttributeSources\CustomAttributeSource.cs" />
+    <Compile Include="AttributeSources\IAttributeSource.cs" />
+    <Compile Include="AttributeSources\ReflectedAttributeSource.cs" />
+    <Compile Include="ComponentEntryBuilder.cs">
+      <DependentUpon>ComponentEntryBuilder.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CompositionNode.cs" />
+    <Compile Include="ExpressionFilterContext.cs" />
+    <Compile Include="ExpressionFilterContextBuilder.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpressionFilterContextBuilder.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpressionFilterContextExtensions.cs" />
+    <Compile Include="ExpressionFilterExtensions.cs" />
+    <Compile Include="ExpressionReflectionVisitor.cs" />
+    <Compile Include="FilterGroup.cs" />
+    <Compile Include="ICompositionCustomDataProvider.cs" />
+    <Compile Include="ICompositionStackProvider.cs" />
+    <Compile Include="InternalEnumerableExtensions.cs" />
+    <Compile Include="MarkerExpressionReplacer.cs" />
+    <Compile Include="MarkerReplacerExpressionFilter.cs" />
+    <Compile Include="Markers\CompositionException.cs" />
+    <Compile Include="Markers\ExpressionMarkerBaseAttribute.cs" />
+    <Compile Include="Markers\ExpressionMarkerMethodAttribute.cs" />
+    <Compile Include="Markers\SubTypeMarkerAttribute.cs" />
+    <Compile Include="Markers\TypeMarkerAttribute.cs" />
+    <Compile Include="Markers\TypeMarkerBaseAttribute.cs" />
+    <Compile Include="SequenceExpressionFilter.cs" />
+    <Compile Include="ServiceConfigurationExpr.cs" />
+    <Compile Include="ComponentEntryCollectionBuilder.cs" />
+    <Compile Include="CustomTypeChangerExpressionFilter.cs" />
+    <Compile Include="DecoratorExpressionFilter.cs" />
+    <Compile Include="ExpressionComposer.cs" />
+    <Compile Include="ComponentContainer.cs" />
+    <Compile Include="ExpressionComposerBuilder.cs" />
+    <Compile Include="ExpressionComposerBuilderExtensions.cs" />
+    <Compile Include="ExpressionExtensions.cs" />
+    <Compile Include="CompositionContext.cs" />
+    <Compile Include="FilterEntry.cs" />
+    <Compile Include="FilterEntryComparer.cs" />
+    <Compile Include="ExpressionFilterBase.cs" />
+    <Compile Include="ImmutableExpressionComposer.cs" />
+    <Compile Include="IServiceProviderEx.cs" />
+    <Compile Include="JetBrains.Annotations\JetBrains.Annotations.cs" />
+    <Compile Include="Markers\M.cs" />
+    <Compile Include="NewExpressionFilter.cs" />
+    <Compile Include="Option.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ImmutableComponentContainer.cs" />
+    <Compile Include="RelativeTypeChangerExpressionFilter.cs" />
+    <Compile Include="ComponentEntry.cs" />
+    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="ServiceProvider.cs" />
+    <Compile Include="StaticStore.cs" />
+    <Compile Include="ThreadSafeComponentContainer.cs" />
+    <Compile Include="ThreadSafeExpressionComposer.cs" />
+    <Compile Include="TypeChangerExpressionFilter.cs" />
+    <Compile Include="TypedAndNamedCollection.cs" />
+    <Compile Include="TypeReplacementVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
