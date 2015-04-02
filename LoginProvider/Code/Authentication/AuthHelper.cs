@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Security;
+using LoginProvider.Domain;
 using LoginProvider.Models;
 using Newtonsoft.Json;
 
@@ -35,11 +36,11 @@ namespace LoginProvider.Code
             }
         }
 
-        public static CustomTicketData CreateTicket(Usuario user, CustomTicketData ticketDoPersonificador = null)
+        public static CustomTicketData CreateTicket(User user, CustomTicketData ticketDoPersonificador = null)
         {
             var userInfoInTicket = new CustomTicketData
             {
-                UserId = user.Id,
+                UserGuid = user.Guid,
                 Login = user.Login,
                 Name = user.Name,
             };

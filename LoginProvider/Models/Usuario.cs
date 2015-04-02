@@ -6,12 +6,14 @@ namespace LoginProvider.Models
     [DebuggerDisplay("{Id} - {Name}")]
     public class Usuario
     {
-        public string Password { get; set; }
+        public virtual int Id { get; set; }
 
-        public string Name { get; set; }
+        public virtual Guid Guid { get; set; }
 
-        public string Login { get; set; }
+        public virtual string Password { get; set; }
 
-        public Guid Id { get; set; }
+        public virtual string Name { get; set; }
+
+        public virtual string Login { get; set; }
     }
 }

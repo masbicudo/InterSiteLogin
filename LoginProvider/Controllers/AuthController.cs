@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 using Infra;
 using LoginProvider.Code;
 using LoginProvider.Code.Authentication;
+using LoginProvider.Commands;
+using LoginProvider.Domain;
 using LoginProvider.Models;
 using LoginProvider.ViewModels.Auth;
 
@@ -12,6 +16,14 @@ namespace LoginProvider.Controllers
     [Authorize]
     public class AuthController : Controller
     {
+        protected readonly IRepository<User> UserRepository;
+        protected readonly HashPasswordCommand passwordHasher;
+
+        public AuthController(IRepository<User> userRepository)
+        {
+            this.UserRepository = userRepository;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string apiKey, string actionToken, string returnUrl)
@@ -21,12 +33,14 @@ namespace LoginProvider.Controllers
                 // == NO API-KEY - DIRECT LOGIN ==
                 // 
                 // This means that the user is loggin in to the provider site directly.
-                // In this case, by logging in, the user will only be recognized by the login provider.
+                // In this case, by logging in, the user will be recognized by the login provider itself.
+                // The user may or may not be given access to the login provider as an application.
                 //
                 // Later, when the USER tryes to login to any APPLICATION, one of these may happen:
                 //
                 //  1) AUTOMATIC LOGIN: allow the user to login,
                 //                      without bothering him/her with additional steps
+                //                      (very dangerous and leaky)
                 //
                 //  2) CONFIRM LOGIN:   require the user to confirm he/she wishes to login,
                 //                      but without having to enter credentials
@@ -35,7 +49,7 @@ namespace LoginProvider.Controllers
                 //                      even if the user already have the provider authentication cookie
                 //
                 // Both the USER and the APPLICATION can control this behavior.
-                // When they diverge, the most restrictive behavior will be used.
+                // When they diverge, the most restrictive behavior will be respected.
                 return this.View();
             }
 
@@ -55,13 +69,15 @@ namespace LoginProvider.Controllers
             {
                 // == USER NOT YET RECOGNIZED (VISITOR) ==
                 //
-                // Let the user login, and get the authentication cookie.
+                // Let the user enter his/her login information:
+                // - user name
+                // - password
                 this.ViewBag.ReturnUrl = application.LoginRedirectUrl;
                 return this.View();
             }
 
             var authTicket = ((CustomPrincipal)this.HttpContext.User).Ticket;
-            var user = LoginHelper.GetUser(authTicket.UserId);
+            var user = LoginHelper.GetUser(authTicket.UserGuid);
 
             if (user == null)
             {
@@ -108,19 +124,24 @@ namespace LoginProvider.Controllers
                 //
                 // Send notification to the application, that the user logged in, if:
                 //  - there is an actionToken:
-                //      - notification goes with the login-token and the action-token
-                //      - app must respond with "RETURN USER TO <url>" so that we know where to redirect the user to
+                //      - data to send: login-token; action-token; login-mode (auto/confirmed/verified)
+                //      - app may respond with "RETURN USER TO <url>" so that we know where to redirect the user to
+                //      - app may respond with "SWITCH MODE <mode>" where mode is confirmed or verified
                 //  - the application has the option "Notify User Login" set:
-                //      - notification goes with the login-key and the default-login-action-token if it exists
-                //      - if LoginRedirectUrl is empty: we must wait for the notification response with "RETURN USER TO <url>"
-                //      - if LoginRedirectUrl is filled: we don't wait for any response, and redirect the user immediately sending the login-token through the URL
+                //      - data to send: login-key; default-login-action-token (if it exists); login-mode (auto/confirmed/verified)
+                //      - if LoginRedirectUrl is empty:
+                //          - we must wait for the notification response with "RETURN USER TO <url>"
+                //          - or for a "SWITCH MODE <mode>" response
+                //      - if LoginRedirectUrl is filled: we don't wait for any response,
+                //          and redirect the user immediately sending the login-token through the URL
                 //
-                // Redirect user to the application,
-                // based on the response from the notification,
-                // or to the default login return url.
+                // Redirect user to the application:
+                //  - based on the response from the notification,
+                //  - or the default login return url
+                //  - or the passed return url (only when there is no action-token)
                 var loginResult = LoginHelper.LogUserInAngGetReturnUrl(application, user, actionToken, returnUrl, this.Request);
 
-                return this.Redirect(returnUrl);
+                return this.Redirect(loginResult.ReturnUrl.ToString());
             }
 
             throw new Exception("Unrecognized option.");
@@ -136,13 +157,28 @@ namespace LoginProvider.Controllers
             if (!this.ModelState.IsValid)
                 return this.JsonWithModelErrors();
 
-            var usuario = (new[] { new Usuario { Login = "user", Password = "123" } })
-                .SingleOrDefault(u => u.Login == viewModel.Login && u.Password == viewModel.Password);
+            // getting user from login info
+            var dbuser = this.UserRepository.Queryable
+                .SingleOrDefault(u => u.Login == viewModel.Login);
 
-            if (usuario == null)
+            if (dbuser != null)
+            {
+                // checking user password
+                var hashbits = this.passwordHasher.Execute(
+                    new HashPasswordCommand.Data
+                    {
+                        PartialSalt = dbuser.PasswordSalt,
+                        Password = viewModel.Password,
+                    });
+
+                if (hashbits.SequenceEqual(dbuser.Password))
+                    dbuser = null;
+            }
+
+            if (dbuser == null)
             {
                 this.ModelState.AddModelError(
-                    "User name or password are incorrect.",
+                    "User login name or password are incorrect.",
                     () => viewModel.Login,
                     () => viewModel.Password);
             }
@@ -152,13 +188,12 @@ namespace LoginProvider.Controllers
 
             AuthHelper.SignIn(
                 this.Response,
-                AuthHelper.CreateTicket(usuario),
+                AuthHelper.CreateTicket(dbuser),
                 TimeSpan.FromHours(8),
                 lembrarMinhaSenha);
 
             if (this.Request.AcceptTypes.Contains(""))
             {
-                
             }
 
             return this.Json(
@@ -170,7 +205,7 @@ namespace LoginProvider.Controllers
         public void Logout()
         {
             var authTicket = ((CustomPrincipal)this.HttpContext.User).Ticket;
-            LoginHelper.LogoutAll(authTicket.UserId);
+            LoginHelper.LogoutAll(authTicket.UserGuid);
             AuthHelper.SignOut(this.Response);
         }
     }

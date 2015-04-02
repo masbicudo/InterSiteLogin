@@ -71,7 +71,7 @@ namespace LoginProvider.Code.Authentication
             HttpRequestBase request)
         {
             Guid loginToken;
-            user.ApplicationId_To_LoginToken_Map[application.Id] = loginToken = Guid.NewGuid();
+            user.ApplicationGuid_To_LoginTokenGuid_Map[application.Id] = loginToken = Guid.NewGuid();
 
             // Send notification to the application, that the user logged in, if:
             //  - there is an actionToken:
@@ -107,7 +107,7 @@ namespace LoginProvider.Code.Authentication
                 var startDate = DateTime.Now;
                 var task = webrequest.GetResponseAsync()
                     .ContinueWith(
-                        t => WebRequestLog(application, user.Id, t.Result, callbackType, t.Exception, startDate));
+                        t => WebRequestLog(application, user.Guid, t.Result, callbackType, t.Exception, startDate));
 
                 if (mustWaitResponse || string.IsNullOrWhiteSpace(application.LoginRedirectUrl))
                 {
@@ -172,12 +172,12 @@ namespace LoginProvider.Code.Authentication
             if (!dicLoginInfos.TryGetValue(userId, out loginInfo))
                 return Enumerable.Empty<WebRequestLog>();
 
-            var tasks = new List<Task<WebRequestLog>>(loginInfo.ApplicationId_To_LoginToken_Map.Count);
+            var tasks = new List<Task<WebRequestLog>>(loginInfo.ApplicationGuid_To_LoginTokenGuid_Map.Count);
 
             // When an user logs in an application it is created a token that represents this action.
             // Both user and application are associated with this token.
             // When the user wants to logout, we must destroy all login tokens associated with this user.
-            foreach (var kv in loginInfo.ApplicationId_To_LoginToken_Map)
+            foreach (var kv in loginInfo.ApplicationGuid_To_LoginTokenGuid_Map)
             {
                 // Getting the application object, for the current token.
                 LoginApplicationInfo app;

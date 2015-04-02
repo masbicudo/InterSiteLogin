@@ -175,6 +175,22 @@
       <Project>{bb49a80d-d048-4e58-a577-dd5260078a34}</Project>
       <Name>Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoginProvider.Commands\LoginProvider.Commands.csproj">
+      <Project>{08bd9db4-23f3-4fd7-8f6a-bfc44a0f65c1}</Project>
+      <Name>LoginProvider.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoginProvider.Data\LoginProvider.Data.csproj">
+      <Project>{60086ac7-a2c9-4348-aa27-214fd801d7c3}</Project>
+      <Name>LoginProvider.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoginProvider.Domain\LoginProvider.Domain.csproj">
+      <Project>{C42D1620-EE46-4C09-8CE5-84F57C8027AA}</Project>
+      <Name>LoginProvider.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Masb.Yai\Masb.Yai.csproj">
+      <Project>{AB5DBE81-B9ED-44C4-89D1-A03BD124A2A1}</Project>
+      <Name>Masb.Yai</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
